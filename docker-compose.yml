@@ -13,6 +13,8 @@ services:
         TOMCAT_XNAT_FOLDER: ${TOMCAT_XNAT_FOLDER}
         XNAT_ROOT: ${XNAT_ROOT}
         XNAT_HOME: ${XNAT_HOME}
+    ports:
+        - 8100:8080
     volumes:
       - ./xnat/plugins:/data/xnat/home/plugins
       - ./xnat-data/home/logs:/data/xnat/home/logs
@@ -33,35 +35,3 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${XNAT_DATASOURCE_ADMIN_PASSWORD}
-
-  xnat-nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-    expose:
-      - "80"
-    links:
-      - xnat-web
-
-  # prometheus:
-  #   image: prom/prometheus
-  #   volumes:
-  #     - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
-  #   command:
-  #     - '-config.file=/etc/prometheus/prometheus.yaml'
-  #   ports:
-  #     - '9090:9090'
-  #   links:
-  #     - cadvisor
-  #
-  # cadvisor:
-  #   image: google/cadvisor
-  #   volumes:
-  #     - /:/rootfs:ro
-  #     - /var/run:/var/run:rw
-  #     - /sys:/sys:ro
-  #     - /var/lib/docker/:/var/lib/docker:ro
-  #   ports:
-  #     - "8082:8080"
-  #   expose:
-  #     - 8082
