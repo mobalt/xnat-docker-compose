@@ -1,6 +1,6 @@
 version: '2'
 services:
-  xnat-web:
+  web:
     build:
       context: ./xnat
       args:
@@ -16,10 +16,10 @@ services:
     ports:
         - 8100:8080
     volumes:
-      - ./xnat/plugins:/data/xnat/home/plugins
-      - ./xnat-data/home/logs:/data/xnat/home/logs
-      - ./xnat-data/archive:/data/xnat/archive
-      - ./xnat-data/build:/data/xnat/build
+      - /extra/xnat/plugins:/data/xnat/home/plugins
+      - /extra/xnat/data/logs:/data/xnat/home/logs
+      - /extra/xnat/data/archive:/data/xnat/archive
+      - /extra/xnat/data/build:/data/xnat/build
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - xnat-db
