@@ -4,17 +4,17 @@ services:
     build:
       context: ./xnat
       args:
-        XNAT_VER: ${XNAT_VER}
-        XNAT_DATASOURCE_DRIVER: ${XNAT_DATASOURCE_DRIVER}
-        XNAT_DATASOURCE_URL: ${XNAT_DATASOURCE_URL}
-        XNAT_DATASOURCE_USERNAME: ${XNAT_DATASOURCE_USERNAME}
-        XNAT_DATASOURCE_PASSWORD: ${XNAT_DATASOURCE_PASSWORD}
-        XNAT_HIBERNATE_DIALECT: ${XNAT_HIBERNATE_DIALECT}
-        TOMCAT_XNAT_FOLDER: ${TOMCAT_XNAT_FOLDER}
-        XNAT_ROOT: ${XNAT_ROOT}
-        XNAT_HOME: ${XNAT_HOME}
+        XNAT_VER: 1.7.6
+        XNAT_DATASOURCE_DRIVER: org.postgresql.Driver
+        XNAT_DATASOURCE_URL: "jdbc:postgresql://postgres/xnat"
+        XNAT_DATASOURCE_USERNAME: xnat
+        XNAT_DATASOURCE_PASSWORD: xnat
+        XNAT_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQL9Dialect
+        TOMCAT_XNAT_FOLDER: ROOT
+        XNAT_ROOT: /data/xnat
+        XNAT_HOME: /data/xnat/home
     ports:
-        - 8100:8080
+      - 8100:8080
     volumes:
       - /extra/xnat/plugins:/data/xnat/home/plugins
       - /extra/xnat/data/logs:/data/xnat/home/logs
@@ -24,7 +24,7 @@ services:
     depends_on:
       - xnat-db
     environment:
-      - CATALINA_OPTS=-Xms${XNAT_MIN_HEAP} -Xmx${XNAT_MAX_HEAP} -Dxnat.home=/data/xnat/home
+      - CATALINA_OPTS=-Xms256m -Xmx2g -Dxnat.home=/data/xnat/home
       - XNAT_HOME=/data/xnat/home
 
   xnat-db:
