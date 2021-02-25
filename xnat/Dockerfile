@@ -3,10 +3,10 @@ MAINTAINER Matt Kelsey <kelseym@wustl.edu>
 
 ARG XNAT_VER=1.7.6
 ARG XNAT_ROOT=/data/xnat
-ARG XNAT_HOME=/data/xnat/home
+ENV XNAT_HOME=/data/xnat/home
 ARG XNAT_DATASOURCE_DRIVER=org.postgresql.Driver
 ARG XNAT_DATASOURCE_URL=jdbc:postgresql://xnat-db/xnat
-ARG XNAT_DATASOURCE_USERNAME=xnat
+ENV XNAT_DATASOURCE_USERNAME=xnat
 ARG XNAT_DATASOURCE_PASSWORD=xnat
 ARG XNAT_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQL9Dialect
 ARG TOMCAT_XNAT_FOLDER=ROOT
@@ -38,7 +38,7 @@ RUN apk del wget
 
 EXPOSE 8080
 
-ENV XNAT_HOME=${XNAT_HOME} XNAT_DATASOURCE_USERNAME=${XNAT_DATASOURCE_USERNAME} PGPASSWORD=${XNAT_DATASOURCE_PASSWORD}
+ENV PGPASSWORD=${XNAT_DATASOURCE_PASSWORD}
 
 CMD ["wait-for-postgres.sh", "/usr/local/tomcat/bin/catalina.sh", "run"]
 
