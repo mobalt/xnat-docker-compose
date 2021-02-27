@@ -4,7 +4,6 @@ services:
     build:
       context: ./xnat
       args:
-        XNAT_VER: ${XNAT_VER}
         XNAT_DATASOURCE_DRIVER: ${XNAT_DATASOURCE_DRIVER}
         XNAT_DATASOURCE_URL: ${XNAT_DATASOURCE_URL}
         XNAT_DATASOURCE_USERNAME: ${XNAT_DATASOURCE_USERNAME}
@@ -25,7 +24,6 @@ services:
       - xnat-db
     environment:
       - CATALINA_OPTS=-Xms${XNAT_MIN_HEAP} -Xmx${XNAT_MAX_HEAP} -Dxnat.home=/data/xnat/home
-      - XNAT_HOME=/data/xnat/home
 
   xnat-db:
     image: postgres:13-alpine
