@@ -42,5 +42,10 @@ COPY assets/xnat-web.war /tmp/xnat-web.war
 RUN unzip -o -d ${TOMCAT_XNAT_FOLDER_PATH} /tmp/xnat-web.war && rm /tmp/xnat-web.war
 
 EXPOSE 8080
+# Give it a minute to load up, then check every 30s that the server responds within 5 seconds
+# If fail, you get 3 chances then restart the server
+HEALTHCHECK --start-period=1m --interval=30s --timeout=5s --retries=3 \
+  CMD wget -nv -t1 --spider 'http://localhost:8080/' || exit 1
+  #CMD curl -f http://localhost:8080/ || exit 1
 
 CMD ["catalina.sh", "run"]
